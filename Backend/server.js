@@ -10,14 +10,17 @@ const MONGODB_URI =
   "mongodb://127.0.0.1:27017/jb-glass-production-29-10";
 
 const client = new MongoClient(MONGODB_URI);
+let db;
 
 async function connectDB() {
   await client.connect();
+  db = client.db();
   console.log("MongoDB connected");
 }
-connectDB();
 
-const db = client.db();
+connectDB().catch(err => {
+  console.error("Mongo connection failed:", err);
+});
 
 const corsOptions = {
   origin: [
