@@ -32,7 +32,7 @@ export default function App() {
 
     const fetchAssignments = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/get-city-office?officeId=${officeId}`);
+        const response = await axios.get(`https://google-office-city-mapping.onrender.com/get-city-office?officeId=${officeId}`);
         console.log('Fetched assignments:', response.data);
         setCurrentOfficeCities(response.data[0].currentOfficeCities || []);
         setOtherOfficeCities(response.data[0].otherOfficeCities || []);

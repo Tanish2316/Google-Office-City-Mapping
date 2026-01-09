@@ -9,14 +9,16 @@ const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 const client = new MongoClient(MONGODB_URI);
+let db;
 
 async function connectDB() {
   await client.connect();
+  db = client.db();
   console.log("MongoDB connected");
 }
-connectDB();
 
-const db = client.db();
+connectDB().catch((err) => console.error(err));
+
 app.use(cors());
 app.use(express.json());
 
