@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Use Boundaries v4 on a map</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  // TO MAKE THE MAP APPEAR YOU MUST
+  // ADD YOUR ACCESS TOKEN FROM https://account.mapbox.com
+  mapboxgl.accessToken = 'pk.eyJ1IjoiamJnYXVyYXYiLCJhIjoiY21naGl6c3I3MHYzbTJqczVyeGhueWhpaCJ9.b042XNZH6UyDTpqmqLp5yQ';
+  const map = new mapboxgl.Map({
+    style: 'mapbox://styles/mapbox/light-v11',
+    bounds: [
+      [-128.27108, 24.75835],
+      [-65.14635, 49.76109]
+    ],
+    container: 'map',
+    antialias: true
+  });
+
+  map.on('load', function () {
+    // Add a vector source for admin-1 boundaries
+    map.addSource('admin-1', {
+      type: 'vector',
+      url: 'mapbox://mapbox.boundaries-adm1-v4',
+      promoteId: 'mapbox_id'
+    });
+
+    // Define a filter for US worldview boundaries
+    let worldviewFilter = [
+      'any',
+      ['==', 'all', ['get', 'worldview']],
+      ['in', 'US', ['get', 'worldview']]
+    ];
+
+    // Add a style layer with the admin-1 source below map labels
+    map.addLayer(
+      {
+        id: 'admin-1-fill',
+        type: 'line',
+        source: 'admin-1',
+        'source-layer': 'boundaries_admin_1',
+        filter: worldviewFilter,
+        paint: {
+          'line-color': '#e55e5e',
+          'line-width': 2
+        }
+      },
+      'waterway-label'
+    );
+
+    // Example: Highlight a specific feature by mapbox_id
+    // Replace 'YOUR_MAPBOX_ID' with the actual mapbox_id you want to highlight
+    map.setFilter('admin-1-fill', [
+      'in',
+      'mapbox_id',
+      'dXJuOm1ieHBsYzpCSWhy'
+    ]);
+  });
+</script>
+</body>
+</html>

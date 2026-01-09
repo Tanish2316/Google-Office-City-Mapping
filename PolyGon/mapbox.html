@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Highlight Cities as Points</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  // TO MAKE THE MAP APPEAR YOU MUST
+  // ADD YOUR ACCESS TOKEN FROM https://account.mapbox.com
+  mapboxgl.accessToken = 'pk.eyJ1IjoiamJnYXVyYXYiLCJhIjoiY21naGl6c3I3MHYzbTJqczVyeGhueWhpaCJ9.b042XNZH6UyDTpqmqLp5yQ';
+
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/standard',
+    center: [-98, 38.88],
+    zoom: 3
+  });
+
+  map.on('load', () => {
+    // Add a GeoJSON source with city points
+    map.addSource('cities', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [-74.0060, 40.7128] // New York City
+            },
+            properties: { name: 'New York City' }
+          },
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [-118.2437, 34.0522] // Los Angeles
+            },
+            properties: { name: 'Los Angeles' }
+          }
+          // Add more cities as needed
+        ]
+      }
+    });
+
+    // Add a circle layer to highlight the city points
+    map.addLayer({
+      id: 'city-points',
+      type: 'circle',
+      source: 'cities',
+      paint: {
+        'circle-radius': 8,
+        'circle-color': '#e55e5e'
+      }
+    });
+  });
+</script>
+</body>
+</html>

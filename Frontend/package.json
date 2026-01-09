@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@turf/boolean-point-in-polygon": "^7.3.0",
     "@turf/helpers": "^4.2.0",
+    "@turf/turf": "^7.3.1",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.126",
     "@types/react": "^19.1.12",
