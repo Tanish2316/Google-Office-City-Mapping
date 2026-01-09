@@ -1,13 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const { MongoClient } = require("mongodb");
 
 const app = express();
 
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI =
-  process.env.MONGODB_URI ||
-  "mongodb://127.0.0.1:27017/jb-glass-production-29-10";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const client = new MongoClient(MONGODB_URI);
 
@@ -18,7 +17,6 @@ async function connectDB() {
 connectDB();
 
 const db = client.db();
-
 app.use(cors());
 app.use(express.json());
 
